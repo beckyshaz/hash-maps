@@ -110,7 +110,12 @@ class HashMap{
       length() {
 
         let count = 0;
+
         for (let i = 0; i < this.buckets.length; i++) {
+
+          //simpler version
+          //count += this.buckets[i].length;
+          //return count;
           for (let j = 0; j < this.buckets[i].length; j++) {
             if (this.buckets[i][j].key) {
               count += 1;
@@ -120,6 +125,72 @@ class HashMap{
         }
         return count;
       }
+
+      //clear() removes all entries in the hash map
+
+      clear() {
+        
+        //for (const i = 0; i < this.buckets.length; i++) {
+        //this.buckets[i] = [];
+        //}
+        
+        for (const bucket of this.buckets) {
+          bucket.length = 0;
+        }
+        
+      }
+      
+      //keys() returns an array containing all the keys inside the hash map.
+
+      keys() {
+        
+        const keyArray = [];
+
+        for (let i = 0; i < this.buckets.length; i++) {
+          for (let j = 0; j < this.buckets[i].length; j++) {
+            keyArray.push(this.buckets[i][j].key);
+
+          }   
+        }
+        return keyArray;
+      
+      }
+
+      //values() returns an array containing all the values.
+      values() {
+      const valuesArray = [];
+
+      for (let i = 0; i < this.buckets.length; i++) {
+        for (let j = 0; j < this.buckets[i].length; j++) {
+          valuesArray.push(this.buckets[i][j].value);
+
+        }   
+      }
+      return valuesArray;
+    
+    }
+
+    //entries() returns an array that contains each key, value pair.
+    // Example: [[firstKey, firstValue], [secondKey, secondValue]]
+
+    entries() {
+
+      const entriesOuterArray = [];
+      
+
+      for (let i = 0; i < this.buckets.length; i++) {
+        for (let j = 0; j < this.buckets[i].length; j++) {
+          const entriesArray = [];
+          entriesArray.push(this.buckets[i][j].key, this.buckets[i][j].value);
+          entriesOuterArray.push(entriesArray);
+
+        }   
+        
+      }
+      return entriesOuterArray;
+    
+    }
+
     
 }
 
@@ -142,11 +213,22 @@ map.set("tobias", "shaz");
 console.log(map.get("sharon"));
 console.log(map.has("sharon") );
 
+console.log(map.keys());
+
+
+
+console.log(map.values());
+
+
+console.log(map.entries());
 
 //console.log(map.remove("sharon"));
 //console.log(map.has("sharon"));
 
 console.log(map.length());
 
+//console.log(map.clear());
+
+//console.log(map.length());
 
 
