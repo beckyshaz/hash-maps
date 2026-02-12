@@ -1,54 +1,71 @@
-class HashMap{
+export class HashMap{
     constructor() {
-        this.loadFactor = 0.75;
+      this.size = 0;
 
-        this.capacity = 16;
+      this.loadFactor = 0.75;
 
-        this.buckets = new Array(this.capacity).fill().map(() => []);
+      this.capacity = 16;
+
+      this.buckets = new Array(this.capacity).fill().map(() => []);
     }
 
     hash(key) {
-        let hashCode = 0;
-
-        const primeNumber = 31;
-        for (let i = 0; i < key.length; i++) {
-          hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
-        }
+      let hashCode = 0;
+      const primeNumber = 31;
+      for (let i = 0; i < key.length; i++) {
+        hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
+      }
       
-        return hashCode;
-      } 
+      return hashCode;
+    } 
 
 
-      set(key, value) {
-        const  bucktLocation = this.hash(key);
+    set(key, value) {
+      
+      const  bucktLocation = this.hash(key);
 
-        const buckets = this.buckets;
+      const buckets = this.buckets;
 
-        const bucket = buckets[bucktLocation];
-
-        for (const i of  bucket) {
-            if (i.key === key) {
-                i.value = value;
-                return;
-            }
+      const bucket = buckets[bucktLocation];
+      
+      for (const i of  bucket) {
+        if (i.key === key) {
+          i.value = value;
+          return;
         }
+      }
+      
+      bucket.push({key, value});
+      this.size++;
 
-        bucket.push({key, value});
+      let exceeded = this.loadFactor * this.capacity;
+      if (this.size > exceeded) {
+         this.resize();
+        }
         return value;
       }
 
 
-      doubleLoadFactor() {
-        let exeeded = this.loadFactor * this.capacity;
-        if (this.capacity > exeeded) {
-          this.capacity * 2;
-        }
+      resize() {
+
+        this.capacity = this.capacity * 2;
+        console.log(this.capacity);
 
         const previousArray = this.buckets;
 
         this.buckets = new Array(this.capacity).fill().map(() => []);
+        this.size = 0;
+        
+        for (let i = 0; i < previousArray.length; i++) {
+          for (let j = 0; j < previousArray[i].length; j++) {
+            const key = previousArray[i][j].key;
+            const value = previousArray[i][j].value;
 
+            this.set(key, value);
+            
 
+          }
+        }
 
       }
 
@@ -99,6 +116,7 @@ class HashMap{
         for (const entry of bucket) {
           if(entry.key === key) {
             bucket.pop(entry);
+            this.size--;
             return true;
           }
         }
@@ -109,21 +127,21 @@ class HashMap{
 
       length() {
 
-        let count = 0;
+       // let count = 0;
 
-        for (let i = 0; i < this.buckets.length; i++) {
+        //for (let i = 0; i < this.buckets.length; i++) {
 
           //simpler version
           //count += this.buckets[i].length;
           //return count;
-          for (let j = 0; j < this.buckets[i].length; j++) {
-            if (this.buckets[i][j].key) {
-              count += 1;
-            }
+         // for (let j = 0; j < this.buckets[i].length; j++) {
+          //  if (this.buckets[i][j].key) {
+           //   count += 1;
+          //  }
 
-          }
-        }
-        return count;
+          //}
+        //}
+        return this.size;
       }
 
       //clear() removes all entries in the hash map
@@ -136,6 +154,7 @@ class HashMap{
         
         for (const bucket of this.buckets) {
           bucket.length = 0;
+          this.size = 0;
         }
         
       }
@@ -193,42 +212,3 @@ class HashMap{
 
     
 }
-
-const map = new HashMap();
-
-console.log(map);
-
-console.log(map.hash("manon"));
-
-
-console.log(map.set("sharon", "rebecca"));
-
-map.set("Toby", "akilo");
-map.set("lily", "turi");
-
-map.set("coby", "tony");
-
-map.set("tobias", "shaz");
-
-console.log(map.get("sharon"));
-console.log(map.has("sharon") );
-
-console.log(map.keys());
-
-
-
-console.log(map.values());
-
-
-console.log(map.entries());
-
-//console.log(map.remove("sharon"));
-//console.log(map.has("sharon"));
-
-console.log(map.length());
-
-//console.log(map.clear());
-
-//console.log(map.length());
-
-
