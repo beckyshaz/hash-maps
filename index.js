@@ -92,7 +92,7 @@ class HashMap{
 
 
       remove(key) {
-        const bucketLocation = hash(key);
+        const bucketLocation = this.hash(key);
 
         const bucket = this.buckets[bucketLocation];
 
@@ -103,6 +103,22 @@ class HashMap{
           }
         }
         return false;
+      }
+
+      //length() returns the number of stored keys in the hash map.
+
+      length() {
+
+        let count = 0;
+        for (let i = 0; i < this.buckets.length; i++) {
+          for (let j = 0; j < this.buckets[i].length; j++) {
+            if (this.buckets[i][j].key) {
+              count += 1;
+            }
+
+          }
+        }
+        return count;
       }
     
 }
@@ -116,5 +132,21 @@ console.log(map.hash("manon"));
 
 console.log(map.set("sharon", "rebecca"));
 
+map.set("Toby", "akilo");
+map.set("lily", "turi");
+
+map.set("coby", "tony");
+
+map.set("tobias", "shaz");
+
 console.log(map.get("sharon"));
-console.log(map.has("sharon"));
+console.log(map.has("sharon") );
+
+
+//console.log(map.remove("sharon"));
+//console.log(map.has("sharon"));
+
+console.log(map.length());
+
+
+
