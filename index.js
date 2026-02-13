@@ -22,11 +22,17 @@ export class HashMap{
 
     set(key, value) {
       
-      const  bucktLocation = this.hash(key);
+      const  index = this.hash(key);
+
+
+      if (index < 0 || index >= this.buckets.length) {
+        throw new Error("Trying to access index out of bounds");
+      }
 
       const buckets = this.buckets;
 
-      const bucket = buckets[bucktLocation];
+
+      const bucket = buckets[index];
       
       for (const i of  bucket) {
         if (i.key === key) {
@@ -73,9 +79,13 @@ export class HashMap{
       // If a key is not found, return null.
 
       get(key) {
-        const bucktLocation = this.hash(key);
+        const index = this.hash(key);
 
-        const bucket = this.buckets[bucktLocation];
+        if (index < 0 || index >= this.buckets.length) {
+          throw new Error("Trying to access index out of bounds");
+        }
+
+        const bucket = this.buckets[index];
 
         for (const entry of bucket) {
           if (key === entry.key) {
@@ -91,9 +101,13 @@ export class HashMap{
       // or not the key is in the hash map.
 
       has(key) {
-        const bucketLocation = this.hash(key);
+        const index = this.hash(key);
 
-        const bucket = this.buckets[bucketLocation];
+        if (index < 0 || index >= this.buckets.length) {
+          throw new Error("Trying to access index out of bounds");
+        }
+
+        const bucket = this.buckets[index];
 
         for (let i = 0; i < bucket.length; i++) {
           if(bucket[i].key === key) {
@@ -109,9 +123,13 @@ export class HashMap{
 
 
       remove(key) {
-        const bucketLocation = this.hash(key);
+        const index = this.hash(key);
 
-        const bucket = this.buckets[bucketLocation];
+        if (index < 0 || index >= this.buckets.length) {
+          throw new Error("Trying to access index out of bounds");
+        }
+
+        const bucket = this.buckets[index];
 
         for (let i = 0; i < bucket.length; i++) {
           if(bucket[i].key === key) {
