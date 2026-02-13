@@ -31,7 +31,10 @@ console.log(test.length())
 
 console.log(test.has("kite"));
 console.log(test.get("toby"));
+console.log("remove" + test.remove("kite"));
 
-console.log(test.clear());
+//console.log(test.clear());
 
 console.log(test.length())
+
+console.log(test.remove("toby"));
