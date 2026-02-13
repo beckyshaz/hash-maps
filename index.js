@@ -113,9 +113,9 @@ export class HashMap{
 
         const bucket = this.buckets[bucketLocation];
 
-        for (const entry of bucket) {
-          if(entry.key === key) {
-            bucket.pop(entry);
+        for (let i = 0; i < bucket.length; i++) {
+          if(bucket[i].key === key) {
+            bucket.splice(i, 1);
             this.size--;
             return true;
           }
@@ -154,8 +154,8 @@ export class HashMap{
         
         for (const bucket of this.buckets) {
           bucket.length = 0;
-          this.size = 0;
         }
+        this.size = 0;
         
       }
       
